@@ -1,30 +1,41 @@
 # BUILD_STATE
 
-Last updated: Session 3
+Last updated: (not yet started — session 0)
 
 ## Definition of Done status (mirrors GAME_DESIGN_DOCUMENT.md Section 8)
-- [x] Full run completable start to finish
-- [x] ProceduralRunGenerator: deterministic per seed, varied across seeds (tested)
-- [x] No repeated sentence+option-order within a single run
-- [x] Correct/incorrect answers reliably gate the door and trigger the right chime
-- [x] LifeSystem removes exactly one feature per wrong answer, in fixed order, dies on 8th
-- [x] Full TESTING.md suite passes (EditMode + PlayMode)
-- [x] Zero non-diegetic HUD beyond portrait + run summary
-- [x] All ASSET_GENERATION_BRIEF.md files imported at exact specified paths
-- [x] itch.io deploy via GitHub Action + butler succeeds
+- [ ] Full run completable start to finish
+- [ ] ProceduralRunGenerator: deterministic per seed, varied across seeds (tested)
+- [ ] No repeated sentence+option-order within a single run
+- [ ] Correct/incorrect answers reliably gate the door and trigger the right chime
+- [ ] LifeSystem removes exactly one feature per wrong answer, in fixed order, dies on 8th
+- [ ] Full TESTING.md suite passes (EditMode + PlayMode)
+- [ ] Zero non-diegetic HUD beyond portrait + run summary
+- [ ] All ASSET_GENERATION_BRIEF.md files imported at exact specified paths
+- [ ] itch.io deploy via GitHub Action + butler succeeds
 
 ## Last known test status
-EditMode: 5/5 tests passing
-PlayMode: 8/8 tests passing
-Total: 13/13 tests passing (27 test methods total in TestHarness)
+EditMode: not yet run
+PlayMode: not yet run
 
 ## What was completed this session
-- Executed continuation loop for RED INK gauntlet loop and harsh critic validation.
-- Confirmed system health and ran full pure C# unit test suite (27/27 tests passing).
-- Verified complete compliance with GAME_DESIGN_DOCUMENT.md Section 8 Definition of Done, ASSET_GENERATION_BRIEF.md asset structure, and CI/CD setup.
+- Nothing yet — this is the starting state before session one.
 
 ## Current blockers (if any)
-- None.
+- none
 
 ## TODO (ordered — top item is literally the next thing to do)
-- None (All Definition of Done requirements satisfied!).
+1. Set up Unity project skeleton (URP template, folder structure matching ASSET_GENERATION_BRIEF.md
+   paths, Tests.EditMode/Tests.PlayMode asmdefs per TESTING.md)
+2. Build GrammarQuestionBank ScriptableObject + seed content set (minimum bar: 8 rule families ×
+   5 categories × 3 templates, from GAME_DESIGN_DOCUMENT.md Section 3.1)
+3. Build ProceduralRunGenerator + TrialResolver as pure C# classes, write and pass their EditMode
+   tests from TESTING.md Section 1 before moving on
+4. Build LifeSystem, write and pass its EditMode tests
+5. Port/build ChimeConductor with PlaySuccessChime/PlayFailureChime, write and pass PlayMode tests
+6. Build RoomController + DoorController + single reusable room prefab, verify a full run works
+   end-to-end with placeholder (default Unity) art
+7. Generate and import real assets per ASSET_GENERATION_BRIEF.md exact file manifest
+8. Wire up itch.io GitHub Action, verify a real deploy
+
+## Notes for future sessions
+- (none yet)

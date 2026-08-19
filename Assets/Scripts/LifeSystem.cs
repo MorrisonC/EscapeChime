@@ -1,73 +1,58 @@
 using System;
-using System.Collections.Generic;
-using UnityEngine;
 
-namespace RedInk
+public enum RedactionFeature
 {
-    public class LifeSystem : MonoBehaviour
+    LeftEar,
+    RightEar,
+    LeftEyebrow,
+    RightEyebrow,
+    Nose,
+    LeftEye,
+    RightEye,
+    Mouth
+}
+
+public class LifeSystem
+{
+    public int FeaturesRemaining { get; private set; } = 8;
+    public bool IsDead => FeaturesRemaining <= 0;
+
+    public event Action<RedactionFeature>? OnFeatureLost;
+    public event Action? OnDeath;
+
+    public void OnWrongAnswer()
     {
-        public static readonly FacialFeature[] FixedFeatureOrder = new FacialFeature[]
+        if (IsDead) return;
+
+        FeaturesRemaining--;
+        RedactionFeature lostFeature = GetFeatureForStage(8 - FeaturesRemaining);
+
+        OnFeatureLost?.Invoke(lostFeature);
+
+        if (FeaturesRemaining == 0)
         {
-            FacialFeature.LeftEar,
-            FacialFeature.RightEar,
-            FacialFeature.LeftEyebrow,
-            FacialFeature.RightEyebrow,
-            FacialFeature.Nose,
-            FacialFeature.LeftEye,
-            FacialFeature.RightEye,
-            FacialFeature.Mouth
-        };
-
-        private int _mistakeCount = 0;
-        private bool _isDead = false;
-
-        public event Action<FacialFeature, int> OnFeatureLost;
-        public event Action OnDeath;
-
-        public int MistakeCount => _mistakeCount;
-        public int RemainingLives => FixedFeatureOrder.Length - _mistakeCount;
-        public bool IsDead => _isDead;
-
-        public void ResetSystem()
-        {
-            _mistakeCount = 0;
-            _isDead = false;
+            OnDeath?.Invoke();
         }
+    }
 
-        public FacialFeature? RemoveNextFeature()
+    public void OnCorrectAnswer()
+    {
+        // Does nothing to features
+    }
+
+    private RedactionFeature GetFeatureForStage(int stage)
+    {
+        switch (stage)
         {
-            if (_isDead || _mistakeCount >= FixedFeatureOrder.Length)
-            {
-                return null;
-            }
-
-            var lostFeature = FixedFeatureOrder[_mistakeCount];
-            _mistakeCount++;
-
-            OnFeatureLost?.Invoke(lostFeature, _mistakeCount - 1);
-
-            if (_mistakeCount == FixedFeatureOrder.Length)
-            {
-                _isDead = true;
-                OnDeath?.Invoke();
-            }
-
-            return lostFeature;
-        }
-
-        public void RegisterCorrectAnswer()
-        {
-            // Correct answer leaves feature state unchanged
-        }
-
-        public List<FacialFeature> GetLostFeatures()
-        {
-            var list = new List<FacialFeature>();
-            for (int i = 0; i < _mistakeCount; i++)
-            {
-                list.Add(FixedFeatureOrder[i]);
-            }
-            return list;
+            case 1: return RedactionFeature.LeftEar;
+            case 2: return RedactionFeature.RightEar;
+            case 3: return RedactionFeature.LeftEyebrow;
+            case 4: return RedactionFeature.RightEyebrow;
+            case 5: return RedactionFeature.Nose;
+            case 6: return RedactionFeature.LeftEye;
+            case 7: return RedactionFeature.RightEye;
+            case 8: return RedactionFeature.Mouth;
+            default: throw new ArgumentOutOfRangeException();
         }
     }
 }

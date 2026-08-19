@@ -1,104 +1,67 @@
-name: Build, Test and Deploy to itch.io
+name: Unity Deploy to Itch.io
 
 on:
   push:
     branches:
       - main
-      - master
+  workflow_dispatch:
+
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+  UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+  UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+  BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
 
 jobs:
-  testRunner:
-    name: Test in Unity (${{ matrix.testMode }})
+  test:
+    name: Run Unity Tests
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: true
-      matrix:
-        testMode:
-          - EditMode
-          - PlayMode
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          lfs: true
-
-      - name: Cache Library
-        uses: actions/cache@v3
-        with:
-          path: Library
-          key: Library-${{ matrix.testMode }}-${{ hashFiles('Assets/**', 'Packages/**') }}
-          restore-keys: |
-            Library-${{ matrix.testMode }}-
-
-      - name: Run tests
-        uses: game-ci/unity-test-runner@v4
+      - uses: actions/checkout@v3
+      - uses: game-ci/unity-test-runner@v2.0-alpha-6
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
-          testMode: ${{ matrix.testMode }}
-          artifactsPath: ${{ matrix.testMode }}-artifacts
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload Test Results
-        uses: actions/upload-artifact@v4
+          projectPath: .
+          testMode: all
+          artifactsPath: TestResults
+      - uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: Test-Results-${{ matrix.testMode }}
-          path: ${{ matrix.testMode }}-artifacts
+          name: Test results
+          path: TestResults
 
-  buildWebGL:
+  build:
     name: Build WebGL
     runs-on: ubuntu-latest
-    needs: testRunner
+    needs: test
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          lfs: true
-
-      - name: Cache Library
-        uses: actions/cache@v3
-        with:
-          path: Library
-          key: Library-WebGL-${{ hashFiles('Assets/**', 'Packages/**') }}
-          restore-keys: |
-            Library-WebGL-
-
-      - name: Build WebGL Project
-        uses: game-ci/unity-builder@v4
+      - uses: actions/checkout@v3
+      - uses: game-ci/unity-builder@v2
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
+          projectPath: .
           targetPlatform: WebGL
-          buildName: RedInk
-          outputPath: build/WebGL
-
-      - name: Upload WebGL Build Artifact
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v3
         with:
           name: WebGL-Build
           path: build/WebGL
 
-  deployItch:
-    name: Deploy to itch.io
+  deploy:
+    name: Deploy to Itch
     runs-on: ubuntu-latest
-    needs: buildWebGL
+    needs: build
     steps:
-      - name: Download WebGL Build
-        uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v3
         with:
           name: WebGL-Build
           path: build/WebGL
 
-      - name: Deploy to itch.io via Butler
-        uses: josephbmanley/butler-publish-itchio@v1.0.3
+      - name: Setup Butler
+        uses: remarkablegames/setup-butler@v1
+
+      - name: Push via butler
         env:
-          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_API_KEY }}
-          CHANNEL: webgl
-          ITCH_GAME: ${{ vars.ITCH_GAME }}
-          ITCH_USER: ${{ vars.ITCH_USER }}
-          PACKAGE: build/WebGL/WebGL
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        run: butler push build/WebGL pionee/escapechime:webgl
