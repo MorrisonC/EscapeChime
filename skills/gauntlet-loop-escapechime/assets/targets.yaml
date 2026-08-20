@@ -1,0 +1,49 @@
+# Lane B (critic-judged) targets for RED INK / EscapeChime.
+# Each has a lane_a_prerequisite: the TESTING.md test class(es) that must
+# be green before this target is allowed into the critic loop at all.
+# Order here is the default pick order in list_targets.py.
+
+targets:
+  - id: PortraitRedaction
+    gdd_section: "Section 4 (Life System) + Section 6 (Art Direction)"
+    lane_a_prerequisite: [LifeSystemTests]
+    capture_method: screenshot
+    notes: >
+      Judge the redaction overlay's visual read at each of the 8 stages,
+      not just the final fully-redacted state. GDD explicitly wants
+      "implication (ink, redaction, silhouette), never gore" -- a critic
+      pick that favors a gorier/more literal treatment is a fail even if
+      it "looks more dramatic."
+
+  - id: RoomSetDressing
+    gdd_section: "Section 6 (Art Direction)"
+    lane_a_prerequisite: [ProceduralRunGeneratorTests]
+    capture_method: screenshot
+    notes: >
+      Bar candidate already named in the GDD itself: The Room (Fireproof
+      Games) for puzzle-box tactility. Confirm a specific title/screenshot
+      is actually fetchable before locking it in -- "The Room" as a
+      franchise name alone isn't specific enough per the Named check.
+
+  - id: ChimeAudio
+    gdd_section: "Section 3.4 (Chime success vs failure)"
+    lane_a_prerequisite: [ChimeConductorPlayModeTests]
+    capture_method: audio
+    notes: >
+      Strongest bar is the prior project's own ChimeConductor audio, if
+      fetchable, since this is explicitly a ported/reused system, not a
+      new one being compared externally. See SKILL.md's "Audio capture
+      caveat" -- if the critic runtime can't take audio input, use
+      scripts/analyze_chime.py's objective pitch-deviation proxy instead
+      of forcing a subjective pick it can't actually make.
+
+  - id: OverallFirstTenMinutes
+    gdd_section: "Section 1 (High Concept) + Section 2 (Three Pillars)"
+    lane_a_prerequisite: [FullRunIntegrationTests]
+    capture_method: screenshot_sequence
+    notes: >
+      Composite judgment across the first several rooms of a run. Keep
+      this LAST in the queue -- it depends on the other three targets
+      already being resolved, since judging pacing/dread against a
+      broken or unfinished redaction/room/chime system isn't a fair test
+      of pacing itself.

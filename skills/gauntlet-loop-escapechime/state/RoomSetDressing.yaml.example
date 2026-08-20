@@ -1,0 +1,8 @@
+# Example only -- delete or overwrite once actually picked (see
+# resources/bar-selection-guide.md). Shows the shape run_gauntlet.sh
+# and list_targets.py expect.
+status: bar_picked
+bar: "REPLACE ME: named, fetchable, comparable reference for RoomSetDressing (a specific title in The Room series, or an alternative)"
+rounds: 0
+last_gap: ""
+flag: ""   # optional -- set if the critic's pick conflicts with the GDD's stated intent (see bar-selection-guide.md)

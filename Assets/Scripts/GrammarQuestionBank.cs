@@ -49,7 +49,7 @@ public class GrammarQuestionBank : UnityEngine.ScriptableObject
 
     public static GrammarQuestionBank CreateSeedContentSet()
     {
-        var bank = ScriptableObject.CreateInstance<GrammarQuestionBank>();
+        var bank = UnityEngine.ScriptableObject.CreateInstance<GrammarQuestionBank>();
         bank.ruleFamilies = new List<RuleFamily>();
 
         string[] categories = { "YourYoure", "ItsIts", "ThereTheirTheyre", "AffectEffect", "ThenThan" };
