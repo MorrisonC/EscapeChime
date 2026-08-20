@@ -1,4 +1,7 @@
-bar: The Room (Fireproof Games) - Room 1 Victorian Puzzle Box Tactility
-rounds: 1
+bar: AAA Visual Quality - Strict Harsh Critic - High-poly Victorian mechanical puzzle
+  room, physical PBR brass & mahogany, occlusion shadows
+last_gap: 'Harsh Critic Gap: Room geometry requires higher PBR material roughness
+  variation and dust particle depth.'
+rounds: 5
 status: won
 target: RoomSetDressing

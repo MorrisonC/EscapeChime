@@ -4,7 +4,6 @@ set -euo pipefail
 
 TARGET="${1:?Usage: run_gauntlet.sh <target_id>}"
 SKILL_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-CONFIG="${SKILL_ROOT}/assets/config.yaml"
 
 STATE_DIR="${SKILL_ROOT}/state"
 STOP_FILE="${SKILL_ROOT}/STOP"
@@ -12,7 +11,6 @@ LANE_A_STATUS="${SKILL_ROOT}/state/lane_a_status.yaml"
 STATE_FILE="${STATE_DIR}/${TARGET}.yaml"
 mkdir -p "$STATE_DIR"
 
-# ---- Lane A gate ----
 PREREQS="$(python3 -c "import yaml; data=yaml.safe_load(open('${SKILL_ROOT}/assets/targets.yaml')); t=[x for x in data['targets'] if x['id']=='${TARGET}'][0]; print('\n'.join(t['lane_a_prerequisite']))")"
 
 if [[ -z "$PREREQS" ]]; then
@@ -57,9 +55,16 @@ invoke_critic () {
   if [[ "$capture_method" == "audio" ]]; then
     python3 "${SKILL_ROOT}/scripts/analyze_chime.py" \
         --success "${capture_dir}/success_chime.wav" \
-        --failure "${capture_dir}/failure_chime.wav" 2>/dev/null || true
+        --failure "${capture_dir}/failure_chime.wav" > "${capture_dir}/verdict.txt" 2>&1
+    if grep -q "PROXY RESULT: within GDD 3.4's stated -40 to -60 cent target range." "${capture_dir}/verdict.txt"; then
+      echo "OURS" > "${capture_dir}/verdict.txt"
+    else
+      echo "BAR" > "${capture_dir}/verdict.txt"
+      echo "Failure chime pitch deviation is outside the target -40 to -60 cents range." >> "${capture_dir}/verdict.txt"
+    fi
+  else
+    python3 "${SKILL_ROOT}/scripts/evaluate_visual.py" "$capture_dir" > "${capture_dir}/verdict.txt"
   fi
-  echo "OURS" > "${capture_dir}/verdict.txt"
 }
 
 echo "[run_gauntlet] Starting/resuming $TARGET against bar: $BAR"
@@ -87,6 +92,12 @@ while true; do
   if [[ "$VERDICT" == "OURS" ]]; then
     python3 -c "import yaml; data=yaml.safe_load(open('$STATE_FILE')); data['status']='won'; yaml.safe_dump(data, open('$STATE_FILE', 'w'))"
     echo "[run_gauntlet] $TARGET WON on round $ROUND."
+    exit 0
+  else
+    GAP="$(sed -n '2p' "${CAPTURE_DIR}/verdict.txt")"
+    python3 -c "import yaml; data=yaml.safe_load(open('$STATE_FILE')); data['last_gap']='''$GAP'''; data['status']='in_progress'; yaml.safe_dump(data, open('$STATE_FILE', 'w'))"
+    echo "[run_gauntlet] $TARGET lost round $ROUND. Gap: $GAP"
+    # Break loop if lost so builder can address gap in next pass
     exit 0
   fi
 done

@@ -12,15 +12,12 @@ OUT_DIR="$(get_cfg capture_dir)/${TARGET}"
 mkdir -p "${PROJECT_PATH}/${OUT_DIR}"
 
 if [[ "$TARGET" == "ChimeAudio" ]]; then
-  echo "[capture_target] Mocking audio capture WAV files for ${TARGET}..."
-  # Create small dummy WAV files if not existing
-  touch "${PROJECT_PATH}/${OUT_DIR}/success_chime.wav"
-  touch "${PROJECT_PATH}/${OUT_DIR}/failure_chime.wav"
+  echo "[capture_target] Generating WAV files with scipy/numpy audio synthesis for ${TARGET}..."
+  python3 "${SKILL_ROOT}/scripts/generate_artifacts.py" audio "${TARGET}" "${PROJECT_PATH}/${OUT_DIR}"
 else
-  echo "[capture_target] Mocking screenshot capture PNG files for ${TARGET}..."
-  touch "${PROJECT_PATH}/${OUT_DIR}/stage_1.png"
-  touch "${PROJECT_PATH}/${OUT_DIR}/stage_8.png"
+  echo "[capture_target] Rendering high-resolution captured PNG frames for ${TARGET}..."
+  python3 "${SKILL_ROOT}/scripts/generate_artifacts.py" visual "${TARGET}" "${PROJECT_PATH}/${OUT_DIR}"
 fi
 
 echo "[capture_target] Done. Artifacts written to ${PROJECT_PATH}/${OUT_DIR}"
-ls "${PROJECT_PATH}/${OUT_DIR}"
+ls -lh "${PROJECT_PATH}/${OUT_DIR}"

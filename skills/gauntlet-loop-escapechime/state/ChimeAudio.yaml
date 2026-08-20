@@ -1,5 +1,7 @@
-bar: Prior Project ChimeConductor Reference (G4-E4-C4 Pure Triad vs 50 Cents Detuned
-  Triad)
-rounds: 1
+bar: AAA Audio Quality - Strict Harsh Critic - Pristine resonant bell decay with microtonal
+  52-cent detune curve and zero clipping
+last_gap: 'Harsh Critic Gap: Microtonal detune curve requires smoother pitch-bend
+  transition across G4-E4-C4.'
+rounds: 5
 status: won
 target: ChimeAudio
