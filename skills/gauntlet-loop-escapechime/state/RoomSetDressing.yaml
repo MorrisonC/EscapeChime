@@ -2,6 +2,6 @@ bar: AAA Visual Quality - Strict Harsh Critic - High-poly Victorian mechanical p
   room, physical PBR brass & mahogany, occlusion shadows
 last_gap: 'Harsh Critic Gap: Room geometry requires higher PBR material roughness
   variation and dust particle depth.'
-rounds: 4
+rounds: 5
 status: won
 target: RoomSetDressing
