@@ -10,16 +10,16 @@ public class DoorController :
     public bool IsLocked { get; private set; } = true;
     public bool IsOpen { get; private set; } = false;
 
-    private ChimeConductor _chimeConductor;
+    private ChimeConductor? _chimeConductor;
 
     public DoorController() {}
 
-    public DoorController(ChimeConductor chimeConductor)
+    public DoorController(ChimeConductor? chimeConductor)
     {
         _chimeConductor = chimeConductor;
     }
 
-    public void SetChimeConductor(ChimeConductor chimeConductor)
+    public void SetChimeConductor(ChimeConductor? chimeConductor)
     {
         _chimeConductor = chimeConductor;
     }

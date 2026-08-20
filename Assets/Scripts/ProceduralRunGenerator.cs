@@ -12,10 +12,13 @@ public class ProceduralRunGenerator
     public Room[] GenerateRun(GrammarQuestionBank bank, int seed, int roomCount)
     {
         if (bank == null || bank.ruleFamilies == null)
-            throw new ArgumentException("Bank is null or empty");
+            throw new ArgumentException("Bank or ruleFamilies is null");
+
+        if (roomCount <= 0)
+            throw new ArgumentException("Room count must be greater than zero.", nameof(roomCount));
 
         if (roomCount > bank.ruleFamilies.Count)
-            throw new ArgumentException($"Requested {roomCount} rooms, but only {bank.ruleFamilies.Count} unique rule families exist in the bank.");
+            throw new ArgumentException($"Requested {roomCount} rooms, but only {bank.ruleFamilies.Count} unique rule families exist in the bank.", nameof(roomCount));
 
         System.Random rnd = new System.Random(seed);
         Room[] run = new Room[roomCount];
@@ -39,7 +42,7 @@ public class ProceduralRunGenerator
 
             // Pick a random template from this family
             if (family.templates == null || family.templates.Count == 0)
-                throw new Exception($"Rule family {family.id} has no templates.");
+                throw new InvalidOperationException($"Rule family {family.id} has no templates.");
 
             int templateIndex = rnd.Next(family.templates.Count);
             GrammarQuestion selectedQuestion = family.templates[templateIndex];

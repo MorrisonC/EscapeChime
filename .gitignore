@@ -1,0 +1,6 @@
+bin/
+obj/
+TestRunner/
+.vs/
+*.user
+results-*.xml

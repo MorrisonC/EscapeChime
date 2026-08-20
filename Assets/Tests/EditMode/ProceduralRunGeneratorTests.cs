@@ -90,4 +90,42 @@ public class ProceduralRunGeneratorTests
             Assert.That(room.Question.template, Does.Contain("{blank}"));
         }
     }
+
+    [Test]
+    public void NullBank_ThrowsArgumentException()
+    {
+        Assert.Throws<ArgumentException>(() =>
+        {
+            _generator.GenerateRun(null, 123, 5);
+        });
+    }
+
+    [Test]
+    public void ZeroOrNegativeRoomCount_ThrowsArgumentException()
+    {
+        Assert.Throws<ArgumentException>(() =>
+        {
+            _generator.GenerateRun(_bank, 123, 0);
+        });
+
+        Assert.Throws<ArgumentException>(() =>
+        {
+            _generator.GenerateRun(_bank, 123, -5);
+        });
+    }
+
+    [Test]
+    public void MaximumCapacityRoomCount_GeneratesAllFamiliesWithoutDuplication()
+    {
+        int maxCapacity = _bank.ruleFamilies.Count;
+        Room[] run = _generator.GenerateRun(_bank, 2024, maxCapacity);
+
+        Assert.That(run.Length, Is.EqualTo(maxCapacity));
+        HashSet<string> seenFamilies = new HashSet<string>();
+        foreach (var room in run)
+        {
+            Assert.That(seenFamilies.Contains(room.Question.ruleFamily), Is.False);
+            seenFamilies.Add(room.Question.ruleFamily);
+        }
+    }
 }
