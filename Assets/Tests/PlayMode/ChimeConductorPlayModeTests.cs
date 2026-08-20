@@ -21,15 +21,33 @@ public class ChimeConductorPlayModeTests
     [Test]
     public void PlaySuccessChime_FiresThreeNoteEventsInOrder()
     {
+        List<string> enteredNotes = new List<string>();
+        List<string> exitedNotes = new List<string>();
+
+        _conductor.OnNoteEntered += (note) => enteredNotes.Add(note);
+        _conductor.OnNoteExited += (note) => exitedNotes.Add(note);
+
         _conductor.PlaySuccessChime();
+
         Assert.That(_conductor.PlayedNotes, Is.EqualTo(new[] { "G4", "E4", "C4" }));
+        Assert.That(enteredNotes, Is.EqualTo(new[] { "G4", "E4", "C4" }));
+        Assert.That(exitedNotes, Is.EqualTo(new[] { "G4", "E4", "C4" }));
     }
 
     [Test]
     public void PlayFailureChime_FiresThreeNoteEventsInOrder()
     {
+        List<string> enteredNotes = new List<string>();
+        List<string> exitedNotes = new List<string>();
+
+        _conductor.OnNoteEntered += (note) => enteredNotes.Add(note);
+        _conductor.OnNoteExited += (note) => exitedNotes.Add(note);
+
         _conductor.PlayFailureChime();
+
         Assert.That(_conductor.PlayedNotes, Is.EqualTo(new[] { "G4_detuned", "E4_detuned", "C4_detuned" }));
+        Assert.That(enteredNotes, Is.EqualTo(new[] { "G4_detuned", "E4_detuned", "C4_detuned" }));
+        Assert.That(exitedNotes, Is.EqualTo(new[] { "G4_detuned", "E4_detuned", "C4_detuned" }));
     }
 
     [Test]

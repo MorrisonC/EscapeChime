@@ -37,6 +37,18 @@ public class GrammarQuestionBankValidationTests
     }
 
     [Test]
+    public void EveryQuestion_TemplateContainsBlankToken()
+    {
+        foreach (var family in _bank.ruleFamilies)
+        {
+            foreach (var template in family.templates)
+            {
+                Assert.That(template.template, Does.Contain("{blank}"));
+            }
+        }
+    }
+
+    [Test]
     public void EveryRuleFamily_HasAtLeastMinimumTemplateCount()
     {
         foreach (var family in _bank.ruleFamilies)
@@ -61,6 +73,22 @@ public class GrammarQuestionBankValidationTests
         {
             Assert.That(kvp.Value, Is.GreaterThanOrEqualTo(8));
         }
+    }
+
+    [Test]
+    public void BankHasAllRequiredCategoriesFromGDD()
+    {
+        HashSet<string> categories = new HashSet<string>();
+        foreach (var family in _bank.ruleFamilies)
+        {
+            categories.Add(family.category);
+        }
+
+        Assert.That(categories, Does.Contain("Homophones"));
+        Assert.That(categories, Does.Contain("CommonlyConfused"));
+        Assert.That(categories, Does.Contain("Apostrophes"));
+        Assert.That(categories, Does.Contain("SubjectVerbAgreement"));
+        Assert.That(categories, Does.Contain("Punctuation"));
     }
 
     [Test]

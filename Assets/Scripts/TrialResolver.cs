@@ -22,7 +22,7 @@ public class TrialResolver
 
     public TrialResolver(GrammarQuestionBank bank, int seed)
     {
-        _bank = bank;
+        _bank = bank ?? throw new ArgumentNullException(nameof(bank));
         _rnd = new Random(seed);
         _seenQuestionsInCurrentRoom = new HashSet<string>();
     }
@@ -39,7 +39,11 @@ public class TrialResolver
 
         _seenQuestionsInCurrentRoom.Add(currentQuestion.id);
 
-        bool isCorrect = string.Equals(currentQuestion.correctAnswer, submittedAnswer, StringComparison.OrdinalIgnoreCase);
+        string cleanExpected = (currentQuestion.correctAnswer ?? "").Trim();
+        string cleanSubmitted = (submittedAnswer ?? "").Trim();
+
+        bool isCorrect = !string.IsNullOrEmpty(cleanSubmitted) &&
+                         string.Equals(cleanExpected, cleanSubmitted, StringComparison.OrdinalIgnoreCase);
 
         if (isCorrect)
         {
@@ -48,26 +52,28 @@ public class TrialResolver
         else
         {
             // Find the rule family for the current question
-            RuleFamily family = _bank.ruleFamilies.FirstOrDefault(f => f.id == currentQuestion.ruleFamily);
-            if (family == null || family.templates == null || family.templates.Count <= 1)
+            RuleFamily family = _bank.ruleFamilies?.FirstOrDefault(f => f.id == currentQuestion.ruleFamily);
+            if (family == null || family.templates == null || family.templates.Count == 0)
             {
-                // Fallback: just return the same question if we have no other templates
                 return new TrialResult { Outcome = TrialOutcome.Incorrect, NextQuestion = currentQuestion };
             }
 
-            // Find all other templates in the same family that we haven't seen in this room yet
+            // Find all templates in the same family that we haven't seen in this room yet
             List<GrammarQuestion> unseenTemplates = family.templates.Where(t => !_seenQuestionsInCurrentRoom.Contains(t.id)).ToList();
 
             if (unseenTemplates.Count == 0)
             {
-                 // If we've exhausted all templates in this family, we might have to repeat.
-                 // But GDD 3.3 says "no single room ever shows the exact same sentence+option-order twice"
-                 // Since there are 3 templates minimum, we shouldn't hit this normally unless they fail 3+ times.
-                 // To adhere strictly, we will pull from otherTemplates excluding the IMMEDIATE current one to at least not repeat consecutively if we ran out.
-                 unseenTemplates = family.templates.Where(t => t.id != currentQuestion.id).ToList();
+                // If we've exhausted all unseen templates in this family, pick from other templates excluding the immediate current one
+                unseenTemplates = family.templates.Where(t => t.id != currentQuestion.id).ToList();
             }
 
-            // Pick a random template from the unseen (or remaining) ones
+            if (unseenTemplates.Count == 0)
+            {
+                // Fallback to currentQuestion if family has only 1 template total
+                unseenTemplates = new List<GrammarQuestion> { currentQuestion };
+            }
+
+            // Pick a random template from the candidate pool
             int nextIndex = _rnd.Next(unseenTemplates.Count);
             GrammarQuestion nextQuestion = unseenTemplates[nextIndex];
 

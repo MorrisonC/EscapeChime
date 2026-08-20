@@ -6,7 +6,7 @@ public class UnityDummyMonoBehaviour {}
 public class UnityDummyAudioClip { public string name; public UnityDummyAudioClip(string n) { name = n; } }
 public class UnityDummyAudioSource
 {
-    public UnityDummyAudioClip clip;
+    public UnityDummyAudioClip? clip;
     public void Play() {}
 }
 #endif
@@ -19,17 +19,17 @@ public class ChimeConductor :
 #endif
 {
 #if !UNITY_5_3_OR_NEWER
-    public UnityDummyAudioSource audioSource;
-    public UnityDummyAudioClip successClip;
-    public UnityDummyAudioClip failureClip;
+    public UnityDummyAudioSource? audioSource;
+    public UnityDummyAudioClip? successClip;
+    public UnityDummyAudioClip? failureClip;
 #else
     public UnityEngine.AudioSource audioSource;
     public UnityEngine.AudioClip successClip;
     public UnityEngine.AudioClip failureClip;
 #endif
 
-    public event Action<string> OnNoteEntered;
-    public event Action<string> OnNoteExited;
+    public event Action<string>? OnNoteEntered;
+    public event Action<string>? OnNoteExited;
 
     public List<string> PlayedNotes { get; private set; } = new List<string>();
 

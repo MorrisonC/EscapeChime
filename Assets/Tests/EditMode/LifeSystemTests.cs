@@ -7,17 +7,17 @@ public class LifeSystemTests
 {
     private LifeSystem _lifeSystem;
     private List<RedactionFeature> _lostFeatures;
-    private bool _died;
+    private int _deathCallCount;
 
     [SetUp]
     public void SetUp()
     {
         _lifeSystem = new LifeSystem();
         _lostFeatures = new List<RedactionFeature>();
-        _died = false;
+        _deathCallCount = 0;
 
         _lifeSystem.OnFeatureLost += (feature) => _lostFeatures.Add(feature);
-        _lifeSystem.OnDeath += () => _died = true;
+        _lifeSystem.OnDeath += () => _deathCallCount++;
     }
 
     [Test]
@@ -58,12 +58,26 @@ public class LifeSystemTests
         for (int i = 0; i < 7; i++)
         {
             _lifeSystem.OnWrongAnswer();
-            Assert.That(_died, Is.False);
+            Assert.That(_deathCallCount, Is.EqualTo(0));
         }
 
         _lifeSystem.OnWrongAnswer();
-        Assert.That(_died, Is.True);
+        Assert.That(_deathCallCount, Is.EqualTo(1));
         Assert.That(_lifeSystem.IsDead, Is.True);
+    }
+
+    [Test]
+    public void ExtraWrongAnswers_BeyondEight_DoNotDecreaseFeaturesOrFireDuplicateDeathEvents()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            _lifeSystem.OnWrongAnswer();
+        }
+
+        Assert.That(_lifeSystem.FeaturesRemaining, Is.EqualTo(0));
+        Assert.That(_lifeSystem.IsDead, Is.True);
+        Assert.That(_deathCallCount, Is.EqualTo(1));
+        Assert.That(_lostFeatures.Count, Is.EqualTo(8));
     }
 
     [Test]
