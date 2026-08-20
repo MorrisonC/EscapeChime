@@ -1,6 +1,7 @@
-bar: AAA Quality - Papers Please meets Control / Dishonored high-fidelity redaction
-  ink shader and cinematic portrait lighting
-last_gap: Pushing visual fidelity to AAA cinematic standards.
-rounds: 4
+bar: AAA Visual Quality - Strict Harsh Critic - Imperfect ink bleed shaders, dynamic
+  high-range chiaroscuro lighting, zero compression artifacts
+last_gap: 'Harsh Critic Gap: Subject requires richer volumetric ink diffusion texture
+  and subsurface scattering on skin.'
+rounds: 5
 status: won
 target: PortraitRedaction

@@ -1,6 +1,7 @@
-bar: 'AAA Quality - The Room 4: Old Sins / Resident Evil 7 Victorian interior photorealism
-  and physical puzzle-box tactility'
-last_gap: Pushing room set dressing to AAA photorealistic puzzle-box standards.
-rounds: 3
+bar: AAA Visual Quality - Strict Harsh Critic - High-poly Victorian mechanical puzzle
+  room, physical PBR brass & mahogany, occlusion shadows
+last_gap: 'Harsh Critic Gap: Room geometry requires higher PBR material roughness
+  variation and dust particle depth.'
+rounds: 4
 status: won
 target: RoomSetDressing

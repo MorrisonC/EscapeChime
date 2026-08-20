@@ -1,6 +1,7 @@
-bar: AAA Quality - Studio master 96kHz G4-E4-C4 acoustic bell chime with procedural
-  pitch detune and binaural room impulse reverb
-last_gap: Upgrading audio chime character to AAA spatial studio master quality.
-rounds: 3
+bar: AAA Audio Quality - Strict Harsh Critic - Pristine resonant bell decay with microtonal
+  52-cent detune curve and zero clipping
+last_gap: 'Harsh Critic Gap: Microtonal detune curve requires smoother pitch-bend
+  transition across G4-E4-C4.'
+rounds: 4
 status: won
 target: ChimeAudio
