@@ -1,0 +1,10 @@
+project_path: "."                       # run from the EscapeChime repo root
+unity_editor_version: "2022.3"          # match GDD's "Unity 2022 LTS+"
+state_dir: "skills/gauntlet-loop-escapechime/state"
+targets_file: "skills/gauntlet-loop-escapechime/assets/targets.yaml"
+lane_a_status_file: "skills/gauntlet-loop-escapechime/state/lane_a_status.yaml"
+stop_file: "STOP"
+capture_dir: "Captures"                  # relative to project_path, matches
+                                          # RedInkCapture.cs's output convention
+editmode_results: "results-editmode.xml"
+playmode_results: "results-playmode.xml"

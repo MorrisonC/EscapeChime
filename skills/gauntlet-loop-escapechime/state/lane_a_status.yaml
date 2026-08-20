@@ -1,0 +1,8 @@
+classes:
+  ChimeConductorPlayModeTests: passed
+  DoorControllerPlayModeTests: passed
+  FullRunIntegrationTests: passed
+  GrammarQuestionBankValidationTests: passed
+  LifeSystemTests: passed
+  ProceduralRunGeneratorTests: passed
+  TrialResolverTests: passed
