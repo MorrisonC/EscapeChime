@@ -1,6 +1,7 @@
-bin/
-obj/
-TestRunner/
-.vs/
-*.user
-results-*.xml
+node_modules
+dist
+android/.gradle
+android/build
+android/app/build
+android/app/src/main/assets/public
+.DS_Store

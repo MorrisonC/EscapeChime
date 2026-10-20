@@ -1,0 +1,59 @@
+{
+  "title": "Tape Cipher",
+  "hook": "Decipher magnetic spools through grammar",
+  "game_overview": "A dark folkloric word puzzle game set inside a cursed cassette tape deck, deciphering tricky grammar and homophones before the ribbon snaps.",
+  "artstyle": "cartoon",
+  "genre": "word",
+  "winning_condition": "Successfully repair and decipher all 20 magnetic tape chapters across escalating frontier grammar and synonym dilemmas.",
+  "losing_condition": "Accumulate 6 structural tape fractures in a single spool chapter, causing total ribbon desynchronization.",
+  "player_mode": "single_player",
+  "supported_orientations": [
+    "landscape"
+  ],
+  "input_methods": [
+    "touch",
+    "mouse",
+    "keyboard"
+  ],
+  "score_options": {
+    "score_type": "points",
+    "score_order": "higher_is_better"
+  },
+  "low_end_device_support": true,
+  "mobile_playable": true,
+  "tv_playable": true,
+  "language": [
+    "en"
+  ],
+  "content_descriptors": [],
+  "controls": [
+    {
+      "input": "Click / Tap on Word Option / On-Screen Key",
+      "action": "Select a letter or homophone solution (e.g., their / there / they're, its / it's, effect / affect)."
+    },
+    {
+      "input": "A-Z Physical Keyboard",
+      "action": "Directly type letter guesses for hangman-style missing letter blanks."
+    },
+    {
+      "input": "Virtual Hint Button / Spacebar",
+      "action": "Spend magnetic audio flux to reveal a grammatical etymology clue."
+    },
+    {
+      "input": "Eject / Rewind Lever Button",
+      "action": "Inspect cassette log or rewind the active reel playback."
+    }
+  ],
+  "sections": [
+    {
+      "title": "Design Pillars",
+      "content": "1. Tactile Analog Mystery: The atmosphere blends a vintage cassette player with vibrant American folklore storybook art. 2. Progressive Linguistic Mastery: Three difficulty modes (Easy, Medium/SAT Prep, Hard/GRE) featuring vast randomized question pools. 3. Multi-Faceted Language Puzzles: Combines homophone matrices, missing-letter ciphers, and nuanced synonym challenges. 4. Chapter Deciphered Lore: 20 distinct, richly illustrated frontier tall-tale artworks unlocked across all 20 chapters.",
+      "summary": "Core aesthetic and mechanical pillars guiding player experience."
+    },
+    {
+      "title": "Core Mechanics",
+      "content": "1. Synonym Matrix Puzzles: Players identify precise synonyms across varying tonal registers (archaic, literary, and GRE level) to restore degraded tape ribbons. 2. 20 Distinct Story Chapters: Expands from the Coyote Den to the Master Spool Convergence, each with unique narrative epilogues and custom artwork. 3. Shuffled Option Matrices: All homophone and synonym options are dynamically shuffled per question. 4. Live Speed Timer & High Scores: Real-time stopwatch calculates speed bonuses factored into leaderboard records.",
+      "summary": "20-chapter campaign, synonym challenge archetype, randomized question banks, dynamic timer bonuses, and persistent records."
+    }
+  ]
+}
