@@ -1,7 +1,0 @@
-bar: AAA Visual Quality - Strict Harsh Critic - Imperfect ink bleed shaders, dynamic
-  high-range chiaroscuro lighting, zero compression artifacts
-last_gap: 'Harsh Critic Gap: Subject requires richer volumetric ink diffusion texture
-  and subsurface scattering on skin.'
-rounds: 6
-status: won
-target: PortraitRedaction

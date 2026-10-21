@@ -1,0 +1,86 @@
+{
+  "schema": [
+    {
+      "name": "maxFractures",
+      "type": "number",
+      "label": "Max Tape Fractures",
+      "default": 6,
+      "min": 3,
+      "max": 10,
+      "step": 1
+    },
+    {
+      "name": "baseScorePerCorrect",
+      "type": "number",
+      "label": "Base Score Per Word",
+      "default": 150,
+      "min": 50,
+      "max": 500,
+      "step": 25
+    },
+    {
+      "name": "streakBonus",
+      "type": "number",
+      "label": "Streak Bonus Score",
+      "default": 25,
+      "min": 5,
+      "max": 100,
+      "step": 5
+    },
+    {
+      "name": "initialFlux",
+      "type": "number",
+      "label": "Initial Audio Flux",
+      "default": 3,
+      "min": 0,
+      "max": 10,
+      "step": 1
+    },
+    {
+      "name": "fluxCostPerHint",
+      "type": "number",
+      "label": "Flux Cost Per Hint",
+      "default": 1,
+      "min": 0,
+      "max": 3,
+      "step": 1
+    },
+    {
+      "name": "spoolRotationSpeed",
+      "type": "number",
+      "label": "Spool Rotation Speed",
+      "default": 1.5,
+      "min": 0.5,
+      "max": 4.0,
+      "step": 0.5
+    },
+    {
+      "name": "defaultMusicVolume",
+      "type": "number",
+      "label": "Default Music Volume",
+      "default": 0.5,
+      "min": 0,
+      "max": 1,
+      "step": 0.1
+    },
+    {
+      "name": "defaultSfxVolume",
+      "type": "number",
+      "label": "Default SFX Volume",
+      "default": 0.6,
+      "min": 0,
+      "max": 1,
+      "step": 0.1
+    }
+  ],
+  "values": {
+    "maxFractures": 6,
+    "baseScorePerCorrect": 150,
+    "streakBonus": 25,
+    "initialFlux": 3,
+    "fluxCostPerHint": 1,
+    "spoolRotationSpeed": 1.5,
+    "defaultMusicVolume": 0.5,
+    "defaultSfxVolume": 0.6
+  }
+}
