@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap');
+  * { margin: 0; padding: 0; }
+  html, body { width: 1024px; height: 500px; overflow: hidden; }
+  .wrap { width: 1024px; height: 500px; position: relative; background: #170f07; }
+  .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.55; }
+  .veil { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(20,12,5,0.92) 0%, rgba(20,12,5,0.75) 45%, rgba(20,12,5,0.25) 100%); }
+  .content { position: absolute; left: 70px; top: 0; height: 500px; width: 620px; display: flex; flex-direction: column; justify-content: center; }
+  .title {
+    font-family: 'Cinzel', 'Times New Roman', serif; font-weight: 700;
+    font-size: 96px; line-height: 1; color: #f3d9a4;
+    text-shadow: 0 4px 18px rgba(0,0,0,0.85);
+    letter-spacing: 2px;
+  }
+  .tagline {
+    margin-top: 22px; font-family: 'Cinzel', 'Times New Roman', serif;
+    font-size: 30px; color: #d8b478; letter-spacing: 1px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.9);
+  }
+  .accent { margin-top: 30px; width: 130px; height: 5px; background: #d8b478; border-radius: 3px; box-shadow: 0 0 14px rgba(216,180,120,0.6); }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <img class="bg" src="../../public/assets/images/bg_tape_deck_table.png" alt="">
+    <div class="veil"></div>
+    <div class="content">
+      <div class="title">TAPE<br>CIPHER</div>
+      <div class="tagline">Decipher the frontier, word by word</div>
+      <div class="accent"></div>
+    </div>
+  </div>
+</body>
+</html>

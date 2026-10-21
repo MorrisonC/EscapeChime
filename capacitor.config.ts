@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.tapecipher.game',
+  appId: 'com.lightweight.tapecipher',
   appName: 'Tape Cipher',
   webDir: 'dist',
   server: {

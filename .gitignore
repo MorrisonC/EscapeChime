@@ -5,3 +5,7 @@ android/build
 android/app/build
 android/app/src/main/assets/public
 .DS_Store
+
+android/keystores
+keystore.properties
+.playwright-mcp/

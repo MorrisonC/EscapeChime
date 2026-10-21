@@ -72,6 +72,10 @@ export function usePlayground() {
           console.error('Playground SDK class not found after script load.');
         }
       } catch (error) {
+        // SDK init failed (e.g. not running inside the Playground iframe, as in
+        // the standalone Capacitor build). Clear the instance so the game
+        // lifecycle hook skips SDK calls instead of throwing and unmounting the app.
+        sdkRef.current = null;
         console.error('Playground SDK initialization failed:', error);
       }
     };
@@ -122,6 +126,17 @@ export function usePlaygroundGameLifecycle(
   useEffect(() => {
     if (!activeSdk) return;
 
+    // The Playground SDK throws when it is not connected to its host channel
+    // (e.g. running standalone inside the Capacitor WebView). Never let those
+    // errors propagate into React and unmount the game.
+    const safeCall = (fn: () => void) => {
+      try {
+        fn();
+      } catch (error) {
+        console.warn('[usePlayground] SDK call failed:', error);
+      }
+    };
+
     const status = (gameState.status || '').toUpperCase();
     const isGameOver =
       status === 'GAME_OVER' || status === 'DEFEAT' || status === 'LOST';
@@ -132,34 +147,40 @@ export function usePlaygroundGameLifecycle(
     const isPaused = status === 'PAUSED' || status === 'PAUSE';
     if (lastIsPausedRef.current !== isPaused) {
       if (typeof activeSdk.pauseStateChanged === 'function') {
-        activeSdk.pauseStateChanged(isPaused);
+        safeCall(() => activeSdk.pauseStateChanged(isPaused));
       }
       lastIsPausedRef.current = isPaused;
     }
 
     if (status === 'PLAYING') {
-      activeSdk.scoreUpdated({
-        value: gameState.score,
-        level: String(currentLevel),
-      });
+      safeCall(() =>
+        activeSdk.scoreUpdated({
+          value: gameState.score,
+          level: String(currentLevel),
+        }),
+      );
       hasCalledGameOver.current = false;
       hasCalledLevelComplete.current = false;
     } else if (isGameOver) {
       if (!hasCalledGameOver.current) {
-        activeSdk.scoreUpdated({
-          value: gameState.score,
-          level: String(currentLevel),
-        });
-        activeSdk.gameOver();
+        safeCall(() =>
+          activeSdk.scoreUpdated({
+            value: gameState.score,
+            level: String(currentLevel),
+          }),
+        );
+        safeCall(() => activeSdk.gameOver());
         hasCalledGameOver.current = true;
       }
     } else if (isLevelComplete) {
       if (!hasCalledLevelComplete.current) {
-        activeSdk.scoreUpdated({
-          value: gameState.score,
-          level: String(currentLevel),
-        });
-        activeSdk.levelComplete(currentLevel);
+        safeCall(() =>
+          activeSdk.scoreUpdated({
+            value: gameState.score,
+            level: String(currentLevel),
+          }),
+        );
+        safeCall(() => activeSdk.levelComplete(currentLevel));
         hasCalledLevelComplete.current = true;
       }
     }

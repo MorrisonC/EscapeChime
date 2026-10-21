@@ -1,4 +1,4 @@
-package com.tapecipher.game;
+package com.lightweight.tapecipher;
 
 import com.getcapacitor.BridgeActivity;
 
